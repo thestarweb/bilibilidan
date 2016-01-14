@@ -1,0 +1,13 @@
+D:\sweb\app\bilibilidan\WpfApplication1\bin\Release\bilibilidan.exe.config
+D:\sweb\app\bilibilidan\WpfApplication1\obj\Release\bilibilidan.exe
+D:\sweb\app\bilibilidan\WpfApplication1\obj\Release\bilibilidan.pdb
+D:\sweb\app\bilibilidan\WpfApplication1\bin\Release\bilibilidan.exe
+D:\sweb\app\bilibilidan\WpfApplication1\bin\Release\bilibilidan.pdb
+D:\sweb\app\bilibilidan\WpfApplication1\obj\Release\bilibilidan.csprojResolveAssemblyReference.cache
+D:\sweb\app\bilibilidan\WpfApplication1\obj\Release\MainWindow.baml
+D:\sweb\app\bilibilidan\WpfApplication1\obj\Release\MainWindow.g.cs
+D:\sweb\app\bilibilidan\WpfApplication1\obj\Release\App.g.cs
+D:\sweb\app\bilibilidan\WpfApplication1\obj\Release\bilibilidan_MarkupCompile.cache
+D:\sweb\app\bilibilidan\WpfApplication1\obj\Release\bilibilidan.g.resources
+D:\sweb\app\bilibilidan\WpfApplication1\obj\Release\biliilidan.Properties.Resources.resources
+D:\sweb\app\bilibilidan\WpfApplication1\obj\Release\bilibilidan.csproj.GenerateResource.Cache

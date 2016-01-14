@@ -1,0 +1,23 @@
+﻿<Window x:Name="Bibilidan" x:Class="bilibilidan.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="B站弹幕姬" Height="350" Width="525">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="43px"/>
+            <RowDefinition/>
+            <RowDefinition Height="22px"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" x:Name="_title" Width="500px" Text="title" HorizontalAlignment="Left" FontSize="24" Margin="0,0,0,14" Grid.ColumnSpan="3"/>
+        <TextBlock Grid.Row="0" x:Name="_roomInfo" Text="房间号： up主：" HorizontalAlignment="Left" FontSize="12" Margin="0,29,0,0" Width="407"/>
+        <TextBlock Grid.Row="0" Text="人" Width="16" HorizontalAlignment="Right" FontSize="12" Margin="0,29,0,0" Height="14" VerticalAlignment="Top"/>
+        <TextBlock Grid.Row="0" x:Name="vNum" Text="0" Width="85" HorizontalAlignment="Right" FontSize="12" Margin="0,29,20,0" TextAlignment="Right" Grid.ColumnSpan="2"/>
+        <RichTextBox Grid.Row="1" x:Name="dms" HorizontalAlignment="Left" VerticalScrollBarVisibility="Visible" Grid.ColumnSpan="3"/>
+        <TextBlock Grid.Row="2" Text="输入指令" Width="50px" HorizontalAlignment="Left" />
+        <TextBox Grid.Row="2" x:Name="cmd" HorizontalAlignment="Left" Width="400" Margin="50px 0 0 0" KeyDown="keydown" Grid.ColumnSpan="3"/>
+        <Button Grid.Row="2" Width="50px" HorizontalAlignment="Right" Content="run" Click="click"/>
+    </Grid>
+</Window>
