@@ -35,6 +35,15 @@ namespace bilibilidan.json
                 if (indexs.Peek() == "\\")
                 {
                     indexs.Pop();
+                    if (temp == "u")
+                    {
+                        temp = (char)Convert.ToInt32(jsonString.Substring(i + 1, 4), 16)+"";
+                        i += 4;
+                    }
+                    else
+                    {
+                        temp = "\\" + temp;
+                    }
                 }
                 else if (temp == "\\")
                 {
