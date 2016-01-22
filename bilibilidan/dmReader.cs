@@ -11,8 +11,8 @@ namespace bilibilidan
 	internal class dmReader
 	{
 		private MainWindow window;
-		private byte[] re=BitConverter.GetBytes(0x04000201);//01 02 00 04
-		private Socket socket=null;
+		private byte[] re= { 0x00, 0x00, 0x00, 0x10, 0x00, 0x10 ,0x00 ,0x01 ,0x00 ,0x00 ,0x00 ,0x02 ,0x00 ,0x00 ,0x00 ,0x01 };//00 00 00 10 00 10 00 01 00 00 00 02 00 00 00 01 
+        private Socket socket=null;
 		private byte[] buffer = new byte[1024];
 		private bool flag=false;
         private bool keeping_link=false;
@@ -32,23 +32,16 @@ Connection: Keep-Alive
 
 ";
 			try{
-                flash_info(r);
                 //socket0.Receive(buffer, 0, buffer.Length, 0);
                 //socket0.Receive(buffer, 0, buffer.Length, 0);
-                byte[] bs =new byte[12];
-				BitConverter.GetBytes(0x0101000C).CopyTo(bs, 0);
-				BitConverter.GetBytes(room).CopyTo(bs, 4);
-				BitConverter.GetBytes(0).CopyTo(bs, 8);
-				byte temp;
-				for(int i=0;i<3;i++){
-					temp = bs[0 + i * 4]; bs[0 + i * 4] = bs[3 + i * 4]; bs[3 + i * 4] = temp;
-					temp = bs[1 + i * 4]; bs[1 + i * 4] = bs[2 + i * 4]; bs[2 + i * 4] = temp;
-				}
+                byte[] temp = Encoding.ASCII.GetBytes("{\"roomid\":"+r+",\"uid\":116364117067476}");
 				window.write("连接到"+r+"中...");
-				socket.Connect("livecmt.bilibili.com", 88);
-				socket.Send(bs);//
+				socket.Connect("58.220.29.21", 788);
+                byte[] temp2 = { 0x00, 0x00, 0x00, (byte)(0x31 +r.Length), 0x00, 0x10, 0x00, 0x01, 0x00, 0x00, 0x00, 0x07, 0x00, 0x00, 0x00, 0x01 };
+                socket.Send(temp2);//
+				socket.Send(temp);
 				socket.Send(re);
-				if(!flag) ThreadPool.QueueUserWorkItem(getdanmu,null);
+                if (!flag) ThreadPool.QueueUserWorkItem(getdanmu,null);
 				window.write("连接成功");
 			}
 			catch (InvalidCastException)
@@ -63,26 +56,27 @@ Connection: Keep-Alive
             //byte[] block = new byte[2048];
             byte[] vNum = new Byte[2];
             string s="";
-			int l;
-			while (socket != null && socket.Connected){
+			int l; ThreadPool.QueueUserWorkItem(keep_link, null);
+            while (socket != null && socket.Connected){
 				Thread.Sleep(10);
 				try{
 					l=socket.Receive(buffer,0,buffer.Length,0);
-					if (l < 20){
-                        vNum[0] = buffer[5];
-                        vNum[1] = buffer[4];
+                    if (l == 0) continue;
+					if (l < 22){
+                        vNum[0] = buffer[l-1];
+                        vNum[1] = buffer[l-2];
                         window.setVNum((int)BitConverter.ToUInt16(vNum, 0));
                         if (!keeping_link)ThreadPool.QueueUserWorkItem(keep_link, null);
 						continue;
 					};
-					s=Encoding.UTF8.GetString(buffer,4,l-4);//裁掉前面无用的信息
+					s=Encoding.UTF8.GetString(buffer,0,l);//裁掉前面无用的信息
                     //jsonReader json = new jsonReader(s);
                     /* if(json.get("cmd")== "DANMU_MSG")
                      {
                          window.danmu("1", "0");
                      }*/
                     try {
-                        jsonReader js = new jsonReader(s);
+                        jsonReader js = new jsonReader(s.Substring(s.IndexOf("{")));
                         if (js.get("cmd") == "DANMU_MSG")
                         {
                             jsonReader info = js.get_o("info");
@@ -112,49 +106,7 @@ Connection: Keep-Alive
 			window.write("连接已断开");
 			flag=false;
 		}
-        private void flash_info(string r)
-        {
-
-            string http = @"GET /" + r + @" HTTP/1.1
-Host: live.bilibili.com
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:40.0) Gecko/20100101 Firefox/40.0
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-Accept-Language: zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3
-Accept-Encoding: deflate
-Connection: keep-alive
-Cache-Control: max-age=0
-
-";
-            Socket socket0 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            socket0.Connect("live.bilibili.com", 80);
-            byte[] bs = Encoding.ASCII.GetBytes(http);//
-            socket0.Send(bs);
-            int l = socket0.Receive(buffer, 0, buffer.Length, 0);
-            string s=Encoding.UTF8.GetString(buffer, 0, l);
-            //window.write(s.IndexOf("3").ToString());
-            if (s.Length>8&&s.IndexOf("3") == 9)
-            {
-                
-                flash_info(Regex.Match(s, "location: http://live.bilibili.com/(\\d+)").ToString().Substring(35));
-                return;
-            }
-            while (l > 0)
-            {
-                try
-                {
-                    s = Regex.Match(s, "<title>.+</title>").ToString();
-                    string[] list=s.Split('-');
-                    window.title = list[0].Substring(7);
-                    window.roomInfo = "房间号：" + r + " up主：" + list[1];
-                    break;
-                }catch(Exception)
-                {
-
-                }
-                l = socket0.Receive(buffer, 0, buffer.Length, 0);
-                s = Encoding.UTF8.GetString(buffer, 0, l);
-            }
-        }
+        
         public void keep_link(Object obj){
             if (keeping_link) return;
             keeping_link = true;

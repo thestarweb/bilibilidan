@@ -92,8 +92,18 @@ namespace bilibilidan
 					if(roomNu==0){
 						write("参数不合法");
 					}else{
-						room=roomNu;
-						dm.link(roomNu);
+                        try {
+                            string string_room = roomInfo.getTrueRoomNum(roomNu.ToString());
+                            room = int.Parse(string_room);
+                            string[] info = roomInfo.getRoomInfo(string_room);
+                            _title.Text = info[1];
+                            _roomInfo.Text = "房间号：" + string_room + "up主:" + info[0];
+                            dm.link(room);
+                        }
+                        catch (Exception)
+                        {
+                            write("房间不存在");
+                        }
 					}
 				}else if(c[0]=="/top"){
 					this.Topmost = true;
@@ -132,18 +142,5 @@ namespace bilibilidan
 			}
 			cmd.Text="";
 		}
-        public string title
-        {
-            set{
-                _title.Text = value;
-            }
-        }
-        public string roomInfo
-        {
-            set
-            {
-                _roomInfo.Text = value;
-            }
-        }
     }
 }
