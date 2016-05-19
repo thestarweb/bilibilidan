@@ -36,7 +36,7 @@ Connection: Keep-Alive
                 //socket0.Receive(buffer, 0, buffer.Length, 0);
                 byte[] temp = Encoding.ASCII.GetBytes("{\"roomid\":"+r+",\"uid\":116364117067476}");
 				window.write("连接到"+r+"中...");
-				socket.Connect("58.220.29.21", 788);
+				socket.Connect("livecmt-2.bilibili.com", 788);
                 byte[] temp2 = { 0x00, 0x00, 0x00, (byte)(0x31 +r.Length), 0x00, 0x10, 0x00, 0x01, 0x00, 0x00, 0x00, 0x07, 0x00, 0x00, 0x00, 0x01 };
                 socket.Send(temp2);//
 				socket.Send(temp);

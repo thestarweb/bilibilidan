@@ -19,10 +19,12 @@ namespace bilibilidan
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+        public static MainWindow main;
 		private dmReader dm;
 		private int room=0;
 		public MainWindow()
 		{
+            main = this;
 			dm=new dmReader(this);
 			InitializeComponent();
 			write("欢迎使用由星星制作的弹幕姬");
@@ -93,16 +95,16 @@ namespace bilibilidan
 						write("参数不合法");
 					}else{
                         try {
-                            string string_room = roomInfo.getTrueRoomNum(roomNu.ToString());
-                            room = int.Parse(string_room);
-                            string[] info = roomInfo.getRoomInfo(string_room);
-                            _title.Text = info[1];
-                            _roomInfo.Text = "房间号：" + string_room + "up主:" + info[0];
+                            roomInfo i = new roomInfo(roomNu.ToString());
+                            room = int.Parse(i.roomNum);
+                            //string[] info = roomInfo.getRoomInfo(string_room);
+                            _title.Text = i.roomTitle;
+                            _roomInfo.Text = "房间号：" + i.roomNum + "up主:" + i.uper;
                             dm.link(room);
                         }
                         catch (Exception)
                         {
-                            write("房间不存在");
+                            write("房间不存在或其他原因连接失败");
                         }
 					}
 				}else if(c[0]=="/top"){
