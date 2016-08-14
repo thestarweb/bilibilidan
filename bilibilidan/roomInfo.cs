@@ -52,7 +52,7 @@ Cache-Control: max-age=0
             socket0.Connect("live.bilibili.com", 80);
             byte[] bs = Encoding.ASCII.GetBytes(http);//
             socket0.Send(bs);
-            Byte[] buffer=new byte[2048];
+            Byte[] buffer=new byte[4096];
             int l = socket0.Receive(buffer, 0, buffer.Length, 0);
             string s = Encoding.UTF8.GetString(buffer, 0, l);
             //window.write(s.IndexOf("3").ToString());
