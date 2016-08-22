@@ -8,7 +8,7 @@ namespace bilibilidan
 {
 	static class ini
 	{
-		private static string _UA;
+		private static string _UA="";
 		public static string UA{
 			get{
 				return _UA;
@@ -21,6 +21,14 @@ namespace bilibilidan
 				return _cookie;
 			}
 		}
+        private static bool _debug = false;
+        public static bool debug
+        {
+            get
+            {
+                return _debug;
+            }
+        }
 		public static bool load(string file)
 		{
 			if(File.Exists(file)){
