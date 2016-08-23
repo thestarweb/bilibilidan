@@ -144,5 +144,9 @@ namespace bilibilidan
 			}
 			cmd.Text="";
 		}
+        ~MainWindow()
+        {
+            dm.unlink();
+        }
     }
 }

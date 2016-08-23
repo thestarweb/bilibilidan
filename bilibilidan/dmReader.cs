@@ -16,9 +16,11 @@ namespace bilibilidan
 		private byte[] buffer = new byte[1024];
 		private bool flag=false;
         private bool keeping_link=false;
+        private Thread reader = null;//弹幕读取线程
+        private Thread keeper = null;//维持连接并发送获取人数指令线程
 		public dmReader(MainWindow win)
 		{
-			window=win;
+            window = win;
 		}
 		public bool link(int room){
 			if (socket != null) unlink();//断开之前的连接
@@ -33,7 +35,15 @@ namespace bilibilidan
                 socket.Send(head);//发送消息头
 				socket.Send(temp);//发送请求正文——房间信息
 				socket.Send(re);//这个本来应该是用来获取人数的，但是长期不发送服务器会断开连接，这里是为了防止这样的情况发生
-                if (!flag) ThreadPool.QueueUserWorkItem(getdanmu,null);//检查读弹幕线程是否在工作
+                if (!flag)//检查读弹幕线程是否在工作
+                {
+                    keeper = new Thread(keep_link);
+                    keeper.IsBackground = true;
+                    reader = new Thread(getdanmu);
+                    reader.IsBackground = true;
+                    reader.Start();
+                    keeper.Start();
+                }
 				window.write("连接成功");
 			}
 			catch (InvalidCastException)
@@ -46,9 +56,8 @@ namespace bilibilidan
             byte[] vNum = new Byte[2];
             string s="";
 			int l;
-            ThreadPool.QueueUserWorkItem(keep_link, null);//此线程定时发送获取人数的信息
+            //ThreadPool.QueueUserWorkItem(keep_link, null);//此线程定时发送获取人数的信息
             while (socket != null && socket.Connected){
-				//Thread.Sleep(10);
 				try{
 					l=socket.Receive(buffer,0,buffer.Length,0);
                     if (l == 0) continue;
@@ -86,6 +95,7 @@ namespace bilibilidan
                         if(ini.debug)window.write(s);
                     }
 				}catch(SocketException){
+                    keeper.Abort();
 					break;
 				}
 			}
@@ -111,16 +121,16 @@ namespace bilibilidan
             keeping_link = false;
 		}
 		~dmReader(){//析构函数，运行结束后释放连接
-			if(socket!=null){
-				socket.Close();
-			}
-		}
+            unlink();
+        }
 		public void unlink(){
 			if (socket != null)
 			{
 				socket.Close();
 				socket=null;
 			}
+            if (reader.IsAlive) reader.Abort();
+            if (keeper.IsAlive) keeper.Abort();
 		}
 	}
     internal class dmMessage
