@@ -52,11 +52,11 @@ namespace bilibilidan
 		}
 		public static void write(string info,iBilibilidanPlugin p){
 			if (main == null) return;
-			main.write(p.name,info,"- ");
+			main.write(p.name,info,6);
 		}
-		internal static void dm(string username, string cont){
+		internal static void dm(string username, string cont,int type){
 			foreach(iBilibilidanPlugin d in plugins){
-				d.dm(3,username,cont);
+				d.dm(type,username,cont);
 			}
 		}
 		public static void regCmd(string cmdname,cmdFun callback){

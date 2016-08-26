@@ -80,10 +80,10 @@ namespace bilibilidan
                         else if(js.get("cmd")== "SEND_GIFT")//礼物信息
                         {
                             jsonReader data = js.get_o("data");
-                            window.write("礼物提醒", data.get("uname")+" 送了 "+data.get("num")+" 个 "+data.get("giftName"), "·");
+                            window.write("礼物提醒", data.get("uname")+" 送了 "+data.get("num")+" 个 "+data.get("giftName"), 2);
                         }else if(js.get("cmd")== "WELCOME")//老爷进入房间
                         {
-                            window.write("迎宾小姐", "欢迎"+js.get_o("data").get("uname")+"老爷"," · ");
+                            window.write("迎宾小姐", "欢迎"+js.get_o("data").get("uname")+"老爷",2);
                         }
                         else
                         {

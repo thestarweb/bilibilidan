@@ -40,16 +40,28 @@ namespace dmshow
                              switch (type)
                              {
                                  case 0:
-                                     _name.Foreground = Brushes.Red;
-                                     break;
-                                 case 1:
                                      _name.Foreground = Brushes.SkyBlue;
                                      break;
+                                 case 1:
+                                     _name.Foreground = Brushes.Red;
+                                     break;
                                  case 2:
-                                     _name.Foreground = Brushes.Orange;
+                                     _name.Foreground = Brushes.Green;
                                      break;
                                  case 3:
+                                     _name.Foreground = Brushes.DarkRed;
+                                     break;
+                                 case 11:
+                                     _name.Foreground = Brushes.LightBlue;
+                                     break;
+                                 case 12:
+                                     _name.Foreground = Brushes.Orange;
+                                     break;
+                                 case 13:
                                      _name.Foreground = Brushes.GreenYellow;
+                                     break;
+                                 default:
+                                     _name.Foreground = Brushes.White;
                                      break;
 
                              }

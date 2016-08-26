@@ -5,7 +5,7 @@ using System.Text;
 
 namespace bilibilidan.json
 {
-    class jsonReader
+    public class jsonReader
     {
         private SortedList<string, string> infos = new SortedList<string, string>();
         public jsonReader(string jsonString)
