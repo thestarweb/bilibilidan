@@ -40,12 +40,9 @@ namespace bilibilidan
 
             string http = @"GET /" + room + @" HTTP/1.1
 Host: live.bilibili.com
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:40.0) Gecko/20100101 Firefox/40.0
+User-Agent: star_danmuji
 Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-Accept-Language: zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3
-Accept-Encoding: deflate
 Connection: keep-alive
-Cache-Control: max-age=0
 
 ";
             Socket socket0 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);

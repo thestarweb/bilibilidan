@@ -22,7 +22,8 @@ namespace bilibilidan
         public static MainWindow main;
 		private dmReader dm;
 		private int room=0;
-		public MainWindow()
+        test t = new test();
+        public MainWindow()
 		{
             main = this;
 			dm=new dmReader(this);
@@ -38,17 +39,17 @@ namespace bilibilidan
 		public void write(string text){
 			write("system",text,"+ ");
 		}
-		public void danmu(string username,string t){
-			write(username,t,username=="星星☆star"?"☆":"   ");
-			pluginCenter.dm(username,t);
-
+		public void danmu(string username,string text){
+			write(username,text,username=="星星☆star"?"☆":"   ");
+			pluginCenter.dm(username,text);
 		}
-		public void write(string username,string cont,string type){
-			dms.Dispatcher.Invoke(
+		public void write(string username,string cont,string type)
+        {
+            t.adddm(3, username, cont);
+            dms.Dispatcher.Invoke(
 					new Action(
 						 delegate
 						 {
-
 							 dms.AppendText(type + username + " 说 : " + cont + "\r\n");
 							 if ((dms.ExtentHeight - dms.ViewportHeight - dms.VerticalOffset) <1) dms.ScrollToEnd();
 						 }
@@ -146,6 +147,7 @@ namespace bilibilidan
 		}
         ~MainWindow()
         {
+            t.Close();
             dm.unlink();
         }
     }
