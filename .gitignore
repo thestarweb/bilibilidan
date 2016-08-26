@@ -17,6 +17,7 @@ local.properties
 .loadpath
 
 */bin/debug/*
+*/obj/*
 
 # External tool builders
 .externalToolBuilders/

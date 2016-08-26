@@ -56,7 +56,7 @@ namespace bilibilidan
 		}
 		internal static void dm(string username, string cont){
 			foreach(iBilibilidanPlugin d in plugins){
-				d.dm(username,cont);
+				d.dm(3,username,cont);
 			}
 		}
 		public static void regCmd(string cmdname,cmdFun callback){
@@ -81,6 +81,8 @@ namespace bilibilidan
 	public delegate void cmdFun(string cmd);
 	public interface iBilibilidanPlugin{
 		string name{get;}
-		void dm(string username,string cont);
+        int[] dmtype { get; }
+		void dm(int type,string username,string cont);
+        void off();
 	}
 }

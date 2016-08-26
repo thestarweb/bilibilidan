@@ -22,7 +22,6 @@ namespace bilibilidan
         public static MainWindow main;
 		private dmReader dm;
 		private int room=0;
-        test t = new test();
         public MainWindow()
 		{
             main = this;
@@ -45,7 +44,6 @@ namespace bilibilidan
 		}
 		public void write(string username,string cont,string type)
         {
-            t.adddm(3, username, cont);
             dms.Dispatcher.Invoke(
 					new Action(
 						 delegate
@@ -147,7 +145,6 @@ namespace bilibilidan
 		}
         ~MainWindow()
         {
-            t.Close();
             dm.unlink();
         }
     }

@@ -10,24 +10,23 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace bilibilidan
+namespace dmshow
 {
     /// <summary>
-    /// test.xaml 的交互逻辑
+    /// show_list.xaml 的交互逻辑
     /// </summary>
-    public partial class test : Window
+    public partial class show_list : Window
     {
-        public test()
+        public show_list()
         {
             InitializeComponent();
             this.Show();
             dms.Document.Blocks.Remove(dms.Document.Blocks.FirstBlock);
-            adddm(3, "hello", "233");
-            adddm(1, "star", "233");
         }
-        public void adddm(int type,string name,string text)
+        public void adddm(int type, string name, string text)
         {
             //dms.CaretBrush= Brush.
             //dms.Document.Blocks.Remove(dms.Document.Blocks.FirstBlock);
@@ -67,7 +66,7 @@ namespace bilibilidan
         }
         private void remove_dm(object o)
         {
-            Thread.Sleep(5000);
+            Thread.Sleep(9000);
 
             dms.Dispatcher.Invoke(
                     new Action(
