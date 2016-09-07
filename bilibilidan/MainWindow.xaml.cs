@@ -173,5 +173,10 @@ namespace bilibilidan
         {
             dm.unlink();
         }
+
+        private void exit(object sender, EventArgs e)
+        {
+            pluginCenter.off();
+        }
     }
 }

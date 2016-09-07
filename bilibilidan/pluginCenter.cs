@@ -59,7 +59,14 @@ namespace bilibilidan
 				d.dm(type,username,cont);
 			}
 		}
-		public static void regCmd(string cmdname,cmdFun callback){
+        internal static void off()
+        {
+            foreach (iBilibilidanPlugin d in plugins)
+            {
+                d.off();
+            }
+        }
+        public static void regCmd(string cmdname,cmdFun callback){
 			cmdname="/"+cmdname;
 			if (cmdList.IndexOfKey(cmdname)==-1){
 				cmdList.Add(cmdname,callback);

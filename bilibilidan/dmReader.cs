@@ -129,8 +129,8 @@ namespace bilibilidan
 				socket.Close();
 				socket=null;
 			}
-            if (reader.IsAlive) reader.Abort();
-            if (keeper.IsAlive) keeper.Abort();
+            if (reader!=null&&reader.IsAlive) reader.Abort();
+            if (keeper!=null&&keeper.IsAlive) keeper.Abort();
 		}
 	}
     internal class dmMessage

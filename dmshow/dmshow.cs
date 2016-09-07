@@ -36,7 +36,7 @@ namespace dmshow
 
         public void off()
         {
-            //
+            list.Close();
         }
     }
 }
