@@ -28,10 +28,10 @@ namespace bilibilidan
 			string r =room.ToString();
 			try{
 				window.write("连接到"+r+"中...");
-                byte[] temp = Encoding.ASCII.GetBytes("{\"roomid\":"+r+",\"uid\":116364117067476}");//构造房间信息
-                socket.Connect("livecmt-2.bilibili.com", 788);//连接到弹幕服务器
+                byte[] temp = Encoding.ASCII.GetBytes("{\"roomid\":"+r+ ",\"uid\":201510566613409}");//构造房间信息
+                socket.Connect("dm.live.bilibili.com", 788);//连接到弹幕服务器
                 //构造消息头
-                byte[] head = { 0x00, 0x00, 0x00, (byte)(0x31 +r.Length), 0x00, 0x10, 0x00, 0x01, 0x00, 0x00, 0x00, 0x07, 0x00, 0x00, 0x00, 0x01 };
+                byte[] head = { 0x00, 0x00, 0x00, (byte)(0x31+r.Length), 0x00, 0x10, 0x00, 0x01, 0x00, 0x00, 0x00, 0x07, 0x00, 0x00, 0x00, 0x01 };
                 socket.Send(head);//发送消息头
 				socket.Send(temp);//发送请求正文——房间信息
 				socket.Send(re);//这个本来应该是用来获取人数的，但是长期不发送服务器会断开连接，这里是为了防止这样的情况发生
