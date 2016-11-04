@@ -52,14 +52,21 @@ namespace bilibilidan
 		}
 		public static void write(string info,iBilibilidanPlugin p){
 			if (main == null) return;
-			main.write(p.name,info,"- ");
+			main.write(p.name,info,6);
 		}
-		internal static void dm(string username, string cont){
+		internal static void dm(string username, string cont,int type){
 			foreach(iBilibilidanPlugin d in plugins){
-				d.dm(username,cont);
+				d.dm(type,username,cont);
 			}
 		}
-		public static void regCmd(string cmdname,cmdFun callback){
+        internal static void off()
+        {
+            foreach (iBilibilidanPlugin d in plugins)
+            {
+                d.off();
+            }
+        }
+        public static void regCmd(string cmdname,cmdFun callback){
 			cmdname="/"+cmdname;
 			if (cmdList.IndexOfKey(cmdname)==-1){
 				cmdList.Add(cmdname,callback);
@@ -81,6 +88,8 @@ namespace bilibilidan
 	public delegate void cmdFun(string cmd);
 	public interface iBilibilidanPlugin{
 		string name{get;}
-		void dm(string username,string cont);
+        int[] dmtype { get; }
+		void dm(int type,string username,string cont);
+        void off();
 	}
 }

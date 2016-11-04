@@ -7,7 +7,7 @@
     <ProjectGuid>{BF4C8699-4480-4B87-AF78-78A5680B9032}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>biliilidan</RootNamespace>
+    <RootNamespace>bilibilidan</RootNamespace>
     <AssemblyName>bilibilidan</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

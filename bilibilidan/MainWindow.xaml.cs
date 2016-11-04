@@ -22,7 +22,7 @@ namespace bilibilidan
         public static MainWindow main;
 		private dmReader dm;
 		private int room=0;
-		public MainWindow()
+        public MainWindow()
 		{
             main = this;
 			dm=new dmReader(this);
@@ -36,25 +36,50 @@ namespace bilibilidan
 			pluginCenter.load(this);
         }
 		public void write(string text){
-			write("system",text,"+ ");
+			write("system",text,1);
 		}
-		public void danmu(string username,string t){
-			write(username,t,username=="星星☆star"?"☆":"   ");
-			pluginCenter.dm(username,t);
-
+		public void danmu(string username,string text){
+			write(username,text,username=="星星☆star"?0:13);
 		}
-		public void write(string username,string cont,string type){
-			dms.Dispatcher.Invoke(
+		public void write(string username,string cont,int type)
+        {
+            string type_string;
+            switch (type)
+            {
+                case 0://star
+                    type_string = "☆";
+                    break;
+                case 1://system
+                    type_string = "+ ";
+                    break;
+                case 2://提醒
+                    type_string = "- ";
+                    break;
+                case 6://插件
+                    type_string = "·";
+                    break;
+                case 11://主播
+                    type_string = "主";
+                    break;
+                case 12://房管
+                    type_string = "管";
+                    break;
+                case 13://普通用户
+                default:
+                    type_string = "   ";
+                    break;
+            }
+            dms.Dispatcher.Invoke(
 					new Action(
 						 delegate
 						 {
-
-							 dms.AppendText(type + username + " 说 : " + cont + "\r\n");
+							 dms.AppendText(type_string + username + " 说 : " + cont + "\r\n");
 							 if ((dms.ExtentHeight - dms.ViewportHeight - dms.VerticalOffset) <1) dms.ScrollToEnd();
 						 }
 				   )
 			  );
-		}
+            pluginCenter.dm(username, cont,type);
+        }
         public void setVNum(int nu)
         {
             vNum.Dispatcher.Invoke(
@@ -147,6 +172,11 @@ namespace bilibilidan
         ~MainWindow()
         {
             dm.unlink();
+        }
+
+        private void exit(object sender, EventArgs e)
+        {
+            pluginCenter.off();
         }
     }
 }

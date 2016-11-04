@@ -28,10 +28,10 @@ namespace bilibilidan
 			string r =room.ToString();
 			try{
 				window.write("连接到"+r+"中...");
-                byte[] temp = Encoding.ASCII.GetBytes("{\"roomid\":"+r+",\"uid\":116364117067476}");//构造房间信息
-                socket.Connect("livecmt-2.bilibili.com", 788);//连接到弹幕服务器
+                byte[] temp = Encoding.ASCII.GetBytes("{\"roomid\":"+r+ ",\"uid\":201510566613409}");//构造房间信息
+                socket.Connect("dm.live.bilibili.com", 788);//连接到弹幕服务器
                 //构造消息头
-                byte[] head = { 0x00, 0x00, 0x00, (byte)(0x31 +r.Length), 0x00, 0x10, 0x00, 0x01, 0x00, 0x00, 0x00, 0x07, 0x00, 0x00, 0x00, 0x01 };
+                byte[] head = { 0x00, 0x00, 0x00, (byte)(0x31+r.Length), 0x00, 0x10, 0x00, 0x01, 0x00, 0x00, 0x00, 0x07, 0x00, 0x00, 0x00, 0x01 };
                 socket.Send(head);//发送消息头
 				socket.Send(temp);//发送请求正文——房间信息
 				socket.Send(re);//这个本来应该是用来获取人数的，但是长期不发送服务器会断开连接，这里是为了防止这样的情况发生
@@ -80,10 +80,10 @@ namespace bilibilidan
                         else if(js.get("cmd")== "SEND_GIFT")//礼物信息
                         {
                             jsonReader data = js.get_o("data");
-                            window.write("礼物提醒", data.get("uname")+" 送了 "+data.get("num")+" 个 "+data.get("giftName"), "·");
+                            window.write("礼物提醒", data.get("uname")+" 送了 "+data.get("num")+" 个 "+data.get("giftName"), 2);
                         }else if(js.get("cmd")== "WELCOME")//老爷进入房间
                         {
-                            window.write("迎宾小姐", "欢迎"+js.get_o("data").get("uname")+"老爷"," · ");
+                            window.write("迎宾小姐", "欢迎"+js.get_o("data").get("uname")+"老爷",2);
                         }
                         else
                         {
@@ -129,8 +129,8 @@ namespace bilibilidan
 				socket.Close();
 				socket=null;
 			}
-            if (reader.IsAlive) reader.Abort();
-            if (keeper.IsAlive) keeper.Abort();
+            if (reader!=null&&reader.IsAlive) reader.Abort();
+            if (keeper!=null&&keeper.IsAlive) keeper.Abort();
 		}
 	}
     internal class dmMessage
