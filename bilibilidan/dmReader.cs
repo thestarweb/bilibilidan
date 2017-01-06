@@ -29,7 +29,7 @@ namespace bilibilidan
 			try{
 				window.write("连接到"+r+"中...");
                 byte[] temp = Encoding.ASCII.GetBytes("{\"roomid\":"+r+ ",\"uid\":201510566613409}");//构造房间信息
-                socket.Connect("dm.live.bilibili.com", 788);//连接到弹幕服务器
+                socket.Connect("117.149.37.138", 788);//连接到弹幕服务器
                 //构造消息头
                 byte[] head = { 0x00, 0x00, 0x00, (byte)(0x31+r.Length), 0x00, 0x10, 0x00, 0x01, 0x00, 0x00, 0x00, 0x07, 0x00, 0x00, 0x00, 0x01 };
                 socket.Send(head);//发送消息头
