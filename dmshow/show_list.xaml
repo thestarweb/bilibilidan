@@ -10,7 +10,7 @@
         WindowStyle="None"
         SizeToContent="Height"
         AllowsTransparency="True"
-        Background="#44000000"
+        Background="#66000000"
         Title="test" Height="300" Width="300">
     <Grid>
         <RichTextBox x:Name="dms" Background="{x:Null}" IsReadOnly="True"/>

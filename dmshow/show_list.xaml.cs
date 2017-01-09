@@ -20,9 +20,13 @@ namespace dmshow
     /// </summary>
     public partial class show_list : Window
     {
+        public double x;
+        public double y;
         public show_list()
         {
             InitializeComponent();
+            y = 768 - 60;
+            x = 1280 - this.Width - 10;
             this.Show();
             dms.Document.Blocks.Remove(dms.Document.Blocks.FirstBlock);
         }
@@ -97,8 +101,8 @@ namespace dmshow
                     new Action(
                          delegate
                          {
-                             this.Top = 768 - this.Height - 60;
-                             this.Left = 1280 - this.Width - 10;
+                             this.Top = y - this.Height;
+                             this.Left = x;
                          }
                    )
               );
