@@ -56,7 +56,7 @@ Connection: keep-alive
             if (s.Length > 8 && s.IndexOf("3") == 9)
             {
 
-                return _roomInfo(Regex.Match(s, "location: http://live.bilibili.com/(\\d+)").ToString().Substring(35));
+                return _roomInfo(Regex.Match(s, "location: /(\\d+)").ToString().Substring(11));
             }
             while (l > 0)
             {
