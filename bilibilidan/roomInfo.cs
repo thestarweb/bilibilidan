@@ -63,9 +63,10 @@ Connection: keep-alive
                 try
                 {
                     string t = Regex.Match(s, "<title>.+</title>").ToString();
-                    string[] ts=t.Substring(7,t.Length-7).Split('-');
-                    _roomTitle = ts[0];
-                    _uper = ts[1];
+                    string ts = t.Substring(7, t.Length - 7);//.Split('-');
+                    ts = ts.Substring(0, ts.LastIndexOf('-')-1);
+                    _roomTitle = ts.Substring(0,ts.LastIndexOf('-')-1);
+                    _uper = ts.Substring(ts.LastIndexOf('-')+2);
                     s = Regex.Match(s, "var ROOMID = \\d+;").ToString();
                     string[] list = s.Split('=');
                     string roomNu = list[1].Substring(1, list[1].Length - 2);
