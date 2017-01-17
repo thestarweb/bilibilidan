@@ -72,10 +72,33 @@ namespace bilibilidan
 					s=Encoding.UTF8.GetString(buffer,0,l);//取出信息
                     try {
                         jsonReader js = new jsonReader(s.Substring(s.IndexOf("{")));
+                        if (ini.debug) window.write(s);
                         if (js.get("cmd") == "DANMU_MSG")//弹幕消息
                         {
+                            string color = (new jsonReader(js.get("info"))).get_o(0).get(3);
+                            switch (color)
+                            {
+                                case "16777215":
+                                    color = "[白]";
+                                    break;
+                                case "65532":
+                                    color = "[青]";
+                                    break;
+                                case "16738408":
+                                    color = "[红]";
+                                    break;
+                                case "6737151":
+                                    color = "[蓝]";
+                                    break;
+                                case "14893055":
+                                    color = "[紫]";
+                                    break;
+                                default:
+                                    color="["+color+"]";
+                                    break;
+                            }
                             jsonReader info = js.get_o("info");
-                            window.danmu(info.get_o(2).get(1), info.get(1));
+                            window.danmu(info.get_o(2).get(1), color+info.get(1));
                         }
                         else if(js.get("cmd")== "SEND_GIFT")//礼物信息
                         {
