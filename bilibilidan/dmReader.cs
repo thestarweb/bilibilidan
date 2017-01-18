@@ -107,7 +107,13 @@ namespace bilibilidan
                                     break;
                             }
                             jsonReader info = js.get_o("info");
-                            window.danmu(info.get_o(2).get(1), color+info.get(1));
+                            jsonReader user = info.get_o(2);
+                            string username = user.get(1);
+                            int u_type = 13;
+                            if (username == "星星☆star") u_type = 0;
+                            else if (username == window.upname) u_type = 11;
+                            else if (user.get(2) == "1") u_type = 12;
+                            window.write(username, color+info.get(1),u_type);
                         }
                         else if(js.get("cmd")== "SEND_GIFT")//礼物信息
                         {

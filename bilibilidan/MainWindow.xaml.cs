@@ -14,13 +14,15 @@ using System.Windows.Shapes;
 
 namespace bilibilidan
 {
-	/// <summary>
-	/// MainWindow.xaml 的交互逻辑
-	/// </summary>
-	public partial class MainWindow : Window
+    
+    /// <summary>
+    /// MainWindow.xaml 的交互逻辑
+    /// </summary>
+    public partial class MainWindow : Window
 	{
         public static MainWindow main;
-		private dmReader dm;
+        private roomInfo _room_info;
+        private dmReader dm;
 		private int room=0;
         public MainWindow()
 		{
@@ -34,6 +36,13 @@ namespace bilibilidan
 				write("没有找到ini文件");
 			}
 			pluginCenter.load(this);
+        }
+        public string upname
+        {
+            get
+            {
+                return _room_info.uper;
+            }
         }
 		public void write(string text){
 			write("system",text,1);
@@ -59,10 +68,10 @@ namespace bilibilidan
                     type_string = "·";
                     break;
                 case 11://主播
-                    type_string = "主";
+                    type_string = "# ";
                     break;
                 case 12://房管
-                    type_string = "管";
+                    type_string = "$ ";
                     break;
                 case 13://普通用户
                 default:
@@ -120,11 +129,11 @@ namespace bilibilidan
 						write("参数不合法");
 					}else{
                         try {
-                            roomInfo i = new roomInfo(roomNu.ToString());
-                            room = int.Parse(i.roomNum);
+                            _room_info = new roomInfo(roomNu.ToString());
+                            room = int.Parse(_room_info.roomNum);
                             //string[] info = roomInfo.getRoomInfo(string_room);
-                            _title.Text = i.roomTitle;
-                            _roomInfo.Text = "房间号：" + i.roomNum + "up主:" + i.uper;
+                            _title.Text = _room_info.roomTitle;
+                            _roomInfo.Text = "房间号：" + _room_info.roomNum + "up主:" + _room_info.uper;
                             dm.link(room);
                         }
                         catch (Exception)
