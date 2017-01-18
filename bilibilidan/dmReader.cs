@@ -93,6 +93,15 @@ namespace bilibilidan
                                 case "14893055":
                                     color = "[紫]";
                                     break;
+                                case "8322816":
+                                    color = "[绿]";
+                                    break;
+                                case "16772431":
+                                    color = "[黄]";
+                                    break;
+                                case "16746752":
+                                    color = "[橙]";
+                                    break;
                                 default:
                                     color="["+color+"]";
                                     break;
