@@ -1,0 +1,23 @@
+﻿<Window x:Class="proxy_server.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:proxy_server"
+        mc:Ignorable="d"
+        Title="B站弹幕姬代理服务器" Height="350" Width="525">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="342*"/>
+            <ColumnDefinition Width="175*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="285*"/>
+        </Grid.RowDefinitions>
+        <RichTextBox Grid.Row="1" Grid.Column="0" x:Name="log" HorizontalAlignment="Left" VerticalScrollBarVisibility="Visible" />
+        <RichTextBox Grid.Row="1" Grid.Column="1" x:Name="client_list" HorizontalAlignment="Left" VerticalScrollBarVisibility="Visible" />
+        <TextBox Grid.Row="0" Width="100" Grid.Column="0" x:Name="port" HorizontalAlignment="Center" Margin="0 0 0 0" Text="1234"/>
+        <Button Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Content="启动" Click="start"/>
+    </Grid>
+</Window>
