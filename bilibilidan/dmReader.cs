@@ -29,7 +29,7 @@ namespace bilibilidan
 			try{
 				window.write("连接到"+r+"中...");
                 byte[] temp = Encoding.ASCII.GetBytes("{\"roomid\":"+r+ ",\"uid\":201510566613409}");//构造房间信息
-                socket.Connect("117.149.37.138", 788);//连接到弹幕服务器
+                socket.Connect("livecmt-2.bilibili.com", 788);//连接到弹幕服务器
                 //构造消息头
                 byte[] head = { 0x00, 0x00, 0x00, (byte)(0x31+r.Length), 0x00, 0x10, 0x00, 0x01, 0x00, 0x00, 0x00, 0x07, 0x00, 0x00, 0x00, 0x01 };
                 socket.Send(head);//发送消息头
@@ -37,13 +37,11 @@ namespace bilibilidan
 				socket.Send(re);//这个本来应该是用来获取人数的，但是长期不发送服务器会断开连接，这里是为了防止这样的情况发生
                 if (!flag)//检查读弹幕线程是否在工作
                 {
-                    keeper = new Thread(keep_link);
-                    keeper.IsBackground = true;
                     reader = new Thread(getdanmu);
                     reader.IsBackground = true;
                     reader.Start();
-                    keeper.Start();
                 }
+				check_keeper();
 				window.write("连接成功");
 			}
 			catch (InvalidCastException)
@@ -66,7 +64,7 @@ namespace bilibilidan
                         vNum[0] = buffer[l-1];
                         vNum[1] = buffer[l-2];
                         window.setVNum((int)BitConverter.ToUInt16(vNum, 0));
-                        if (!keeping_link)ThreadPool.QueueUserWorkItem(keep_link, null);
+						check_keeper();
 						continue;
 					};
 					s=Encoding.UTF8.GetString(buffer,0,l);//取出信息
@@ -142,8 +140,6 @@ namespace bilibilidan
 		}
         
         public void keep_link(Object obj){
-            if (keeping_link) return;
-            keeping_link = true;
             while (true)
             {
                 Thread.Sleep(10000);
@@ -156,7 +152,13 @@ namespace bilibilidan
                     break;
                 }
             }
-            keeping_link = false;
+		}
+		private void  check_keeper() {
+			if(keeper==null||!keeper.IsAlive) {
+				keeper = new Thread(keep_link);
+				keeper.IsBackground = true;
+				keeper.Start();
+			}
 		}
 		~dmReader(){//析构函数，运行结束后释放连接
             unlink();

@@ -115,43 +115,52 @@ namespace bilibilidan
 			if(cmd.Text=="") return;
 			if(cmd.Text.Substring(0,1)=="/"){
 				string[] c=cmd.Text.Split(new char[]{' '},2);
-				if(c[0]=="/room"){
-					int roomNu=0;
-					if(c.Length==2){
-						try{
-							roomNu=int.Parse(c[1]);
+				if (c[0] == "/room") {
+					int roomNu = 0;
+					if (c.Length == 2) {
+						try {
+							roomNu = int.Parse(c[1]);
 						}
 						catch (InvalidCastException)
 						{
 						}
 					}
-					if(roomNu==0){
+					if (roomNu == 0) {
 						write("参数不合法");
-					}else{
-                        try {
-                            _room_info = new roomInfo(roomNu.ToString());
-                            room = int.Parse(_room_info.roomNum);
-                            //string[] info = roomInfo.getRoomInfo(string_room);
-                            _title.Text = _room_info.roomTitle;
-                            _roomInfo.Text = "房间号：" + _room_info.roomNum + "up主:" + _room_info.uper;
-                            dm.link(room);
-                        }
-                        catch (Exception)
-                        {
-                            write("房间不存在或其他原因连接失败");
-                        }
+					} else {
+						try {
+							_room_info = new roomInfo(roomNu.ToString());
+							room = int.Parse(_room_info.roomNum);
+							//string[] info = roomInfo.getRoomInfo(string_room);
+							//_title.Text = _room_info.roomTitle;
+							//_roomInfo.Text = "房间号：" + _room_info.roomNum + "up主:" + _room_info.uper;
+						}
+						catch (Exception)
+						{
+							write("房间不存在或其他原因无法获取数据");
+						}
+						try {
+							dm.link(room);
+						}
+						catch(Exception) 
+						{
+							write("未能正确连接弹幕服务器");
+						}
 					}
-				}else if(c[0]=="/top"){
+				} else if (c[0] == "/top") {
 					this.Topmost = true;
 					write("窗口已经置顶");
-				}else if(c[0]=="/untop"){
+				} else if (c[0] == "/untop") {
 					this.Topmost = false;
 					write("窗口已取消置顶");
-				}else if(c[0]=="/clean"){
+				} else if (c[0]=="/debug") {
+					ini.debug = !ini.debug;
+					write("已设置调试模式：" + (ini.debug ? "开" : "关")); 
+				} else if (c[0] == "/clean") {
 					this.dms.Document.Blocks.Clear();
-				}else if (c[0] == "/pluginList"){
+				} else if (c[0] == "/pluginList") {
 					pluginCenter.showPlugins();
-				}else if (c[0] == "/help" || c[0] == "/?"){
+				} else if (c[0] == "/help" || c[0] == "/?") {
 					write(@"帮助：
 /top 置顶
 /untop 取消置顶
@@ -160,8 +169,8 @@ namespace bilibilidan
 /pluginList 展示插件列表
 插件指令请参阅插件帮助文档
 ");
-				}else{
-					if(!pluginCenter.runCmd(c[0],c.Length==2?c[1]:"")) write("无效的指令"+c[0]+"\r\n输入/help 或/? 以查看帮助");
+				} else {
+					if (!pluginCenter.runCmd(c[0], c.Length == 2 ? c[1] : "")) write("无效的指令" + c[0] + "\r\n输入/help 或/? 以查看帮助");
 				}
 			}else{
 				if(ini.cookie==""||ini.UA==""){
