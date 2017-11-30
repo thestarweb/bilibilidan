@@ -13,7 +13,7 @@ namespace bilibilidan
 		private MainWindow window;
 		private byte[] re= { 0x00, 0x00, 0x00, 0x10, 0x00, 0x10 ,0x00 ,0x01 ,0x00 ,0x00 ,0x00 ,0x02 ,0x00 ,0x00 ,0x00 ,0x01 };//00 00 00 10 00 10 00 01 00 00 00 02 00 00 00 01 
         private Socket socket=null;
-		private byte[] buffer = new byte[1024];
+		private byte[] buffer = new byte[4096];
 		private bool flag=false;
         private bool keeping_link=false;
         private Thread reader = null;//弹幕读取线程
