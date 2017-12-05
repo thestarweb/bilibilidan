@@ -132,8 +132,8 @@ namespace bilibilidan
 							_room_info = new roomInfo(roomNu.ToString());
 							room = int.Parse(_room_info.roomNum);
 							//string[] info = roomInfo.getRoomInfo(string_room);
-							//_title.Text = _room_info.roomTitle;
-							//_roomInfo.Text = "房间号：" + _room_info.roomNum + "up主:" + _room_info.uper;
+							_roomInfo.Text = "房间号：" + _room_info.roomNum + "up主:" + _room_info.uper;
+							_title.Text = _room_info.getTitle();
 						}
 						catch (Exception)
 						{
