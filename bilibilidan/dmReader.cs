@@ -71,7 +71,7 @@ namespace bilibilidan
                     try {
                         jsonReader js = new jsonReader(s.Substring(s.IndexOf("{")));
                         if (ini.debug) window.write(s);
-                        if (js.get("cmd") == "DANMU_MSG")//弹幕消息
+                        if (js.get("cmd").StartsWith("DANMU_MSG"))//弹幕消息
                         {
                             string color = (new jsonReader(js.get("info"))).get_o(0).get(3);
                             switch (color)
