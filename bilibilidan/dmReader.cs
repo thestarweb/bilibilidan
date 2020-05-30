@@ -50,85 +50,107 @@ namespace bilibilidan
 			}
 			return true;
 		}
-		private void getdanmu(object obj){
-            byte[] vNum = new Byte[2];
+		private void getdanmu(object obj){//读弹幕循环
+            byte[] head = new byte[16];
+            int length;//数据包总长度
+            short version;//协议版本
+            int action;
             string s="";
 			int l;
             //ThreadPool.QueueUserWorkItem(keep_link, null);//此线程定时发送获取人数的信息
             while (socket != null && socket.Connected){
 				try{
-					l=socket.Receive(buffer,0,buffer.Length,0);
+                    l = socket.Receive(head, 0, head.Length, 0);
+                    if (l != head.Length)
+                    {
+                        continue;
+                    }
+                    length = NetConverter.toInt(head, 0)-16;
+                    version = NetConverter.toShort(head, 6);
+                    action = NetConverter.toInt(head, 8);
+                    l = socket.Receive(buffer, 0, buffer.Length < length ? buffer.Length : length, 0);
                     if (l == 0) continue;
-					if (l < 22){
-                        //这种情况一般是返回房间人数 是二进制信息
-                        vNum[0] = buffer[l-1];
-                        vNum[1] = buffer[l-2];
-                        window.setVNum((int)BitConverter.ToUInt16(vNum, 0));
-						check_keeper();
-						continue;
-					};
-					s=Encoding.UTF8.GetString(buffer,0,l);//取出信息
-                    try {
-                        jsonReader js = new jsonReader(s.Substring(s.IndexOf("{")));
-                        if (ini.debug) window.write(s);
-                        if (js.get("cmd").StartsWith("DANMU_MSG"))//弹幕消息
+                    if (action == 3)
+                    {
+                        window.setVNum(NetConverter.toInt(buffer, 0));
+                        check_keeper();
+                        continue;
+                    }
+                    else if (action == 5)
+                    {
+                        if (version == 2)
                         {
-                            string color = (new jsonReader(js.get("info"))).get_o(0).get(3);
-                            switch (color)
-                            {
-                                case "16777215":
-                                    color = "[白]";
-                                    break;
-                                case "65532":
-                                    color = "[青]";
-                                    break;
-                                case "16738408":
-                                    color = "[红]";
-                                    break;
-                                case "6737151":
-                                    color = "[蓝]";
-                                    break;
-                                case "14893055":
-                                    color = "[紫]";
-                                    break;
-                                case "8322816":
-                                    color = "[绿]";
-                                    break;
-                                case "16772431":
-                                    color = "[黄]";
-                                    break;
-                                case "16746752":
-                                    color = "[橙]";
-                                    break;
-                                default:
-                                    color="["+color+"]";
-                                    break;
-                            }
-                            jsonReader info = js.get_o("info");
-                            jsonReader user = info.get_o(2);
-                            string username = user.get(1);
-                            int u_type = 13;
-                            if (username == "星星☆star") u_type = 0;
-                            else if (username == window.upname) u_type = 11;
-                            else if (user.get(2) == "1") u_type = 12;
-                            window.write(username, color+info.get(1),u_type);
-                        }
-                        else if(js.get("cmd")== "SEND_GIFT")//礼物信息
-                        {
-                            jsonReader data = js.get_o("data");
-                            window.write("礼物提醒", data.get("uname")+" 送了 "+data.get("num")+" 个 "+data.get("giftName"), 2);
-                        }else if(js.get("cmd")== "WELCOME")//老爷进入房间
-                        {
-                            window.write("迎宾小姐", "欢迎"+js.get_o("data").get("uname")+"老爷",2);
+                            s = NetConverter.DecompressString(buffer, 2, l - 2);
                         }
                         else
                         {
-                            if(ini.debug)window.write(s);
+                            s = Encoding.UTF8.GetString(buffer, 0, l);//取出信息
                         }
-                    }
-                    catch (Exception)
-                    {
-                        if(ini.debug)window.write(s);
+                        
+                        try
+                        {
+                            jsonReader js = new jsonReader(s.Substring(s.IndexOf("{")));
+                            if (ini.debug) window.write(s);
+                            if (js.get("cmd").StartsWith("DANMU_MSG"))//弹幕消息
+                            {
+                                string color = (new jsonReader(js.get("info"))).get_o(0).get(3);
+                                switch (color)
+                                {
+                                    case "16777215":
+                                        color = "[白]";
+                                        break;
+                                    case "65532":
+                                        color = "[青]";
+                                        break;
+                                    case "16738408":
+                                        color = "[红]";
+                                        break;
+                                    case "6737151":
+                                        color = "[蓝]";
+                                        break;
+                                    case "14893055":
+                                        color = "[紫]";
+                                        break;
+                                    case "8322816":
+                                        color = "[绿]";
+                                        break;
+                                    case "16772431":
+                                        color = "[黄]";
+                                        break;
+                                    case "16746752":
+                                        color = "[橙]";
+                                        break;
+                                    default:
+                                        color = "[" + color + "]";
+                                        break;
+                                }
+                                jsonReader info = js.get_o("info");
+                                jsonReader user = info.get_o(2);
+                                string username = user.get(1);
+                                int u_type = 13;
+                                if (username == "星星☆star") u_type = 0;
+                                else if (username == window.upname) u_type = 11;
+                                else if (user.get(2) == "1") u_type = 12;
+                                window.write(username, color + info.get(1), u_type);
+                            }
+                            else if (js.get("cmd") == "SEND_GIFT")//礼物信息
+                            {
+                                jsonReader data = js.get_o("data");
+                                window.write("礼物提醒", data.get("uname") + " 送了 " + data.get("num") + " 个 " + data.get("giftName"), 2);
+                            }
+                            else if (js.get("cmd") == "WELCOME")//老爷进入房间
+                            {
+                                window.write("迎宾小姐", "欢迎" + js.get_o("data").get("uname") + "老爷", 2);
+                            }
+                            else
+                            {
+                                if (ini.debug) window.write(s);
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            if (ini.debug) window.write(s);
+                        }
                     }
 				}catch(SocketException){
                     keeper.Abort();

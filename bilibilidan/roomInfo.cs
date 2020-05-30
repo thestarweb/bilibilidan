@@ -25,7 +25,7 @@ namespace bilibilidan
 				string s = Encoding.UTF8.GetString(buffer, 0, l);
 				jsonReader j = new jsonReader(s.Substring(s.IndexOf("{")));
 				j = j.get_o("data");
-				s=j.get("title");
+                s = j.get("title");
 				return s;
 				//return _roomTitle;
 		}
