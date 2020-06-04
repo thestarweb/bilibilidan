@@ -5,10 +5,10 @@ using System.Text;
 using bilibilidan;
 namespace dmshow
 {
-    public class dmshow : iBilibilidanPlugin
+    public class dmshowMain : iBilibilidanPlugin
     {
         show_list list = new show_list();
-        public dmshow()
+        public dmshowMain()
         {
             list.Show();
             pluginCenter.regCmd("dmshow", cmd);

@@ -107,5 +107,18 @@ namespace dmshow
                    )
               );
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            IntPtr handle = new System.Windows.Interop.WindowInteropHelper(this).Handle;
+            int oldStyle = (int)(Win32API.GetWindowLong(handle, -20));
+            //-20 GWL_EXSTYLE 窗口样式
+            //0x00000080=WS_EX_TOOLWINDOW 小标题工具窗口 在Alt+tab中不会显示此窗口
+            //0x08000000=WS_EX_NOACTIVATE 窗口不会变成前台
+            //0x80000=WS_EX_LAYERED 窗口具有透眀属性 大概是没用
+            //0x20=WS_EX_TRANSPARENT 窗口透明 这里其实是指的窗口不会捕获鼠标事件 鼠标可以穿过窗口点击到后面的东西
+            Win32API.SetWindowLong(handle, -20, (IntPtr)(oldStyle | 0x00000080 | 0x08000000| 0x80000| 0x20));
+        }
+
     }
 }

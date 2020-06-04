@@ -11,7 +11,8 @@
         SizeToContent="Height"
         AllowsTransparency="True"
         Background="#66000000"
-        Title="test" Height="300" Width="300">
+        Loaded="Window_Loaded"
+        Title="show_list" Height="300" Width="300">
     <Grid>
         <RichTextBox x:Name="dms" Background="{x:Null}" IsReadOnly="True"/>
 

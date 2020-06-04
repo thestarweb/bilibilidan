@@ -48,6 +48,7 @@
     <Compile Include="show_list.xaml.cs">
       <DependentUpon>show_list.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Win32API.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\bilibilidan\bilibilidan.csproj">
@@ -62,6 +63,10 @@
     </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>mkdir "$(SolutionDir)bilibilidan\\bin\\Release\\plugin"
+copy "$(TargetPath)" "$(SolutionDir)bilibilidan\\bin\\Release\\plugin\\$(TargetFileName)"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
