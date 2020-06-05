@@ -34,6 +34,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -44,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="dmshow.cs" />
+    <Compile Include="dm_item.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="show_list.xaml.cs">
       <DependentUpon>show_list.xaml</DependentUpon>
