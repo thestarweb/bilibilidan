@@ -133,10 +133,20 @@ namespace bilibilidan
                                 else if (user.get(2) == "1") u_type = 12;
                                 window.write(username, color + info.get(1), u_type);
                             }
-                            else if (js.get("cmd") == "SEND_GIFT")//礼物信息
+                            else if (js.get("cmd") == "SEND_GIFT")//礼物信息（旧）
                             {
                                 jsonReader data = js.get_o("data");
                                 window.write("礼物提醒", data.get("uname") + " 送了 " + data.get("num") + " 个 " + data.get("giftName"), 2);
+                            }
+                            /*else if (js.get("cmd") == "COMBO_SEND")//礼物信息（新 合并）
+                            {
+                                jsonReader data = js.get_o("data");
+                                window.write("礼物提醒", data.get("uname") + " 送了 " + data.get("combo_num") + " 个 " + data.get("gift_name"), 2);
+                            }*/
+                            else if (js.get("cmd") == "LIVE_INTERACTIVE_GAME")//礼物信息（新 不合并）
+                            {
+                                jsonReader data = js.get_o("data");
+                                window.write("礼物提醒", data.get("uname") + " 送了 " + data.get("gift_num") + " 个 " + data.get("gift_name"), 2);
                             }
                             /*else if (js.get("cmd") == "WELCOME")//老爷进入房间
                             {
